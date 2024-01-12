@@ -1,0 +1,1 @@
+Affirmative word used in the english language
