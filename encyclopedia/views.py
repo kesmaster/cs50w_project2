@@ -8,17 +8,19 @@ import random
 
 import markdown2
 
+
+# Class created for the form that adds and edits MD files and wiki entries
 class title_and_content_form(forms.Form):
     title = forms.CharField(label="Title")
     description = forms.CharField(widget=forms.Textarea, label="Description")
 
-
+# Home page
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
 
-
+# Add entry method
 def add(request):
 
     if request.method == "POST":
@@ -46,15 +48,15 @@ def add(request):
 
     return render(request, "encyclopedia/addentry.html", {"form": form})
 
-
+# Add entry error method
 def addentryerror(request):
     return render(request, "encyclopedia/addentryerror.html")
 
-
+# Error method
 def error(request):
     return render(request, "encyclopedia/error.html")
 
-
+# Load dynamic entry method
 def entry(request, name):
     if util.get_entry(name):
         return render(request, "encyclopedia/entry.html", {
@@ -65,7 +67,7 @@ def entry(request, name):
         return render(request, "encyclopedia/error.html", {
             "name": name
         })
-
+# Search for entry method
 def search(request):
     if request.method == "GET":
         search_query = request.GET.get('q')
@@ -84,7 +86,7 @@ def search(request):
             return render(request, "encyclopedia/index.html", {
                 "entries": list_filtered
             })
-            
+# Edit entry method            
 def edit(request, name):
     if request.method == "POST":
         form = title_and_content_form(request.POST)
@@ -110,6 +112,7 @@ def edit(request, name):
         "name": name
         })
 
+# Select random entry method
 def randomentry(request):
     list = util.list_entries()
     item = random.choice(list)
